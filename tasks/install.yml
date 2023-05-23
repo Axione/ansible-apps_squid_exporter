@@ -1,33 +1,34 @@
 ---
 - name: "Check for squid_exporter binary"
-  stat:
+  ansible.builtin.stat:
     path: '{{ squid_exporter_install_dir }}/squid-exporter'
   changed_when: false
   register: squid_exporter_binary
 
-- when: not squid_exporter_binary.stat.exists or squid_exporter_force_install|bool
+- name: "Install tasks"
+  when: not squid_exporter_binary.stat.exists or squid_exporter_force_install|bool
   block:
     - name: "Install requierements"
-      package:
+      ansible.builtin.package:
         name: "ca-certificates"
         state: present
 
     - name: "Download squid_exporter..."
-      get_url:
+      ansible.builtin.get_url:
         url: '{{ squid_exporter_url }}'
         dest: '{{ squid_exporter_install_dir }}'
         timeout: 120
         mode: '0755'
 
 - name: "Create systemd for squid_exporter"
-  template:
+  ansible.builtin.template:
     src: 'squid_exporter.service.j2'
     dest: '/etc/systemd/system/squid_exporter.service'
     mode: '0644'
   notify: "restart squid_exporter"
 
 - name: "Enable and Start squid_exporter.service"
-  service:
+  ansible.builtin.service:
     name: squid_exporter
     state: started
     enabled: true
