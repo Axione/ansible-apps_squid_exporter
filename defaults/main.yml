@@ -4,6 +4,7 @@ squid_exporter_version: "1.10.4"
 squid_exporter_url: "https://github.com/boynux/squid-exporter/releases/download/v{{ squid_exporter_version }}/squid-exporter"
 squid_exporter_install_dir: "/usr/local/bin"
 squid_exporter_force_install: false
+squid_exporter_local_dl: true
 
 # Systemd options
 squid_exporter_squid_host: "localhost"

@@ -13,12 +13,31 @@
         name: "ca-certificates"
         state: present
 
-    - name: "Download squid_exporter..."
+    - name: "Download squid_exporter from target..."
       ansible.builtin.get_url:
         url: '{{ squid_exporter_url }}'
         dest: '{{ squid_exporter_install_dir }}'
         timeout: 120
         mode: '0755'
+      when: not squid_exporter_local_dl | bool
+
+    - name: "Download squid_exporter from localhost..."
+      ansible.builtin.get_url:
+        url: '{{ squid_exporter_url }}'
+        dest: '/tmp/'
+        timeout: 120
+        mode: '0755'
+      delegate_to: localhost
+      when: squid_exporter_local_dl | bool
+
+    - name: "Propagate squid_exporter binary"
+      ansible.builtin.copy:
+        src: "/tmp/squid-exporter"
+        dest: '{{ squid_exporter_install_dir }}'
+        mode: 0755
+        owner: root
+        group: root
+      when: squid_exporter_local_dl | bool
 
 - name: "Create systemd for squid_exporter"
   ansible.builtin.template:
