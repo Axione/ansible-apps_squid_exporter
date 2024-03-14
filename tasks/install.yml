@@ -44,7 +44,7 @@
     src: 'squid_exporter.service.j2'
     dest: '/etc/systemd/system/squid_exporter.service'
     mode: '0644'
-  notify: "restart squid_exporter"
+  notify: "Restart squid_exporter"
 
 - name: "Enable and Start squid_exporter.service"
   ansible.builtin.service:

@@ -1,5 +1,5 @@
 ---
-- name: "restart squid_exporter"
+- name: "Restart squid_exporter"
   ansible.builtin.service:
     name: "squid_exporter"
     state: "restarted"
