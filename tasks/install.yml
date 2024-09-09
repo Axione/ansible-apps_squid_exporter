@@ -34,7 +34,7 @@
       ansible.builtin.copy:
         src: "/tmp/squid-exporter"
         dest: '{{ squid_exporter_install_dir }}/squid-exporter'
-        mode: 0755
+        mode: '0755'
         owner: root
         group: root
       when: squid_exporter_local_dl | bool
