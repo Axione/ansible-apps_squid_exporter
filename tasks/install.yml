@@ -22,6 +22,7 @@
       when: not squid_exporter_local_dl | bool
 
     - name: "Download squid_exporter from localhost..."
+      become: false
       ansible.builtin.get_url:
         url: '{{ squid_exporter_url }}'
         dest: '/tmp/squid-exporter'
